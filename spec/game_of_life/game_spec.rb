@@ -82,5 +82,33 @@ describe GameOfLife do
       end
 
     end
+
+    context "4 cells" do
+      it "all dead" do
+        test_grid [[0], [0], [0], [0]], [[0], [0], [0], [0]]
+
+        test_grid [[0], [0], [0], [1]], [[0], [0], [0], [0]]
+
+        test_grid [[0], [0], [1], [1]], [[0], [0], [0], [0]]
+
+        test_grid [[1], [0], [1], [1]], [[0], [0], [0], [0]]
+      end
+
+      it "keep alive" do
+        test_grid [[0], [1], [1], [1]], [[0], [0], [1], [0]]
+
+        test_grid [[1], [1], [1], [0]], [[0], [1], [0], [0]]
+
+        test_grid [[1], [1], [1], [1]], [[0], [1], [1], [0]]
+      end
+    end
+  end
+
+  context "2x2 cells" do
+    it "all dead" do
+      #test_grid [[0, 0], [0, 0]], [[0, 0], [0, 0]]
+
+    end
+
   end
 end

@@ -6,22 +6,12 @@ class GameOfLife
   end
 
   def tick
-    if @y_length == 1
-      @grid = [Array.new(@x_length) { 0 }]
-    else
-      @grid = Array.new(@y_length) { [0] }
-    end
+    @grid = @y_length.times.map { [0] * @x_length}
 
-    if @y_length == 1
-      (1..@x_length).each do |i|
-        if alive_x?(i) && has_2_x_neighbor_alive?(i)
-          set_alive_x(i)
-        end
-      end
-    else
-      (1...@y_length-1).each do |j|
-        if alive_y?(j) && has_2_y_neighbor_alive?(j)
-          set_alive_y(j)
+    @y_length.times.each_with_index do |j|
+      @x_length.times.each_with_index do |i|
+        if alive?(i, j) && has_2_neighbor_alive?(i, j)
+          set_alive(i, j)
         end
       end
     end
@@ -29,28 +19,39 @@ class GameOfLife
     @grid
   end
 
-  def alive_y?(j)
-    @init_grid[j][0] == 1
+  private
+
+  def alive?(i, j)
+    @init_grid[j][i] == 1
   end
 
-  def has_2_y_neighbor_alive?(j)
-    @y_length >= 3 && @init_grid[j-1][0] == 1 && @init_grid[j+1][0] == 1
+  def has_2_neighbor_alive?(i, j)
+    count = 0
+    count += 1 if up_alive?(i, j)
+    count += 1 if down_alive?(i, j)
+    count += 1 if left_alive?(i, j)
+    count += 1 if right_alive?(i, j)
+
+    count == 2
   end
 
-  def set_alive_y(j)
-    @grid[j][0] = 1
+  def set_alive(i, j)
+    @grid[j][i] = 1
   end
 
-  def alive_x?(x)
-    @init_grid[0][x] == 1
+  def up_alive?(i, j)
+    j > 0 && @init_grid[j-1][i] == 1
   end
 
-  def has_2_x_neighbor_alive?(x)
-    @x_length >= 3 && @init_grid[0][x-1] == 1 && @init_grid[0][x+1] == 1
+  def down_alive?(i, j)
+    j < @y_length-1 && @init_grid[j+1][i] == 1
   end
 
-  def set_alive_x(x)
-    @grid[0][x] = 1
+  def left_alive?(i, j)
+    i > 0 && @init_grid[j][i-1] == 1
   end
 
+  def right_alive?(i, j)
+    i < @x_length && @init_grid[j][i+1] == 1
+  end
 end
