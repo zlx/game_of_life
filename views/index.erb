@@ -1,1 +1,47 @@
-"hello world !!!!!!!"
+<div><%= "Grid: " + @grid.to_s %></div>
+
+<canvas id='grid' width="150" height="150" style="border: 1px solid #000000;"></canvas>
+
+<script>
+  function draw_grid(grid){
+    var c=document.getElementById("grid");
+    var ctx=c.getContext("2d");
+    ctx.strokeStyle = "#b2b2b2";
+    for(var k=1; k<15; k++){
+      ctx.moveTo(0,10*k);
+      ctx.lineTo(150,10*k);
+      ctx.stroke();
+      ctx.moveTo(10*k,0);
+      ctx.lineTo(10*k,150);
+      ctx.stroke();
+    }
+
+    ctx.fillStyle="#000000";
+    for(var i=0; i<grid.length; i++){
+      for(var j=0; j<grid[0].length; j++){
+        if(grid[i][j] == 1){
+          ctx.fillRect(i*10,j*10,10,10);
+        }
+      }
+    }
+  }
+
+  //function post_grid(grid){
+  //  var url = "/";
+  //  var params = "";
+  //  http.open("POST", url, true);
+
+  //  //Send the proper header information along with the request
+  //  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  //  http.setRequestHeader("Content-length", params.length);
+  //  http.setRequestHeader("Connection", "close");
+
+  //  http.onreadystatechange = function() {//Call a function when the state changes.
+  //    if(http.readyState == 4 && http.status == 200) {
+  //      alert(http.responseText);
+  //    }
+  //  }
+  //  http.send(params);
+  //}
+  draw_grid(<%= @grid %>) //[[1, 0, 0], [0, 1, 1], [1, 1, 1]]
+</script>
