@@ -1,5 +1,6 @@
 <canvas id='grid' width="150" height="150" style="border: 1px solid #000000;"></canvas>
 
+<script src='javascript/jquery.min.js'></script>
 <script>
   function draw_grid(grid){
     var c=document.getElementById("grid");
@@ -31,32 +32,28 @@
     }
   }
 
-  //function post_grid(grid){
-    //  var url = "/";
-    //  var params = "";
-    //  http.open("POST", url, true);
+  function parse_array(string){
+    var size = Math.sqrt(string.length);
+    var a = new Array(size);
+    for(var k=0; k<size; k++){
+      a[k] = new Array(size);
+    }
 
-    //  //Send the proper header information along with the request
-    //  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    //  http.setRequestHeader("Content-length", params.length);
-    //  http.setRequestHeader("Connection", "close");
-
-    //  http.onreadystatechange = function() {//Call a function when the state changes.
-      //    if(http.readyState == 4 && http.status == 200) {
-        //      alert(http.responseText);
-        //    }
-      //  }
-    //  http.send(params);
-    //}
-  function rand_grid(grid){
-    for(var i=0; i<grid.length; i++){
-      for(var j=0; j<grid[0].length; j++){
-        grid[i][j] = Math.floor(Math.random()*100/50);
+    for(var j=0; j<size; j++){
+      for(var i=0; i<size; i++){
+        a[j][i] = parseInt(string.charAt(size*j + i));
       }
     }
-    return grid;
+    return a;
   }
 
-  // set schedule to draw cells
-  setInterval(function(){draw_grid(rand_grid(<%= @grid %>))}, 1000); //[[1, 0, 0], [0, 1, 1], [1, 1, 1]]
+  $(document).ready(function(){
+    next_grid = <%= @grid %>;
+    setInterval(function(){
+      $.post('/', {grid: next_grid}, function(data){
+        next_grid = parse_array(data);
+        draw_grid(next_grid);
+      });
+    }, 1000);
+  });
 </script>
