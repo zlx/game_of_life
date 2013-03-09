@@ -1,31 +1,40 @@
-<canvas id='grid' width="150" height="150" style="border: 1px solid #000000;"></canvas>
+<style>
+  .grid {
+    border: 1px solid #000000;
+  }
+</style>
+<canvas id='grid1' class="grid" width="<%= @grid1.size*10 %>" height="<%= @grid1.size*10 %>"></canvas>
+<canvas id='grid2' class="grid" width="<%= @grid2.size*10 %>" height="<%= @grid2.size*10 %>"></canvas>
+<canvas id='grid3' class="grid" width="<%= @grid3.size*10 %>" height="<%= @grid3.size*10 %>"></canvas>
+<canvas id='grid4' class="grid" width="<%= @grid4.size*10 %>" height="<%= @grid4.size*10 %>"></canvas>
+<canvas id='grid5' class="grid" width="<%= @grid5.size*10 %>" height="<%= @grid5.size*10 %>"></canvas>
 
 <script src='javascript/jquery.min.js'></script>
 <script>
-  function draw_grid(grid){
-    var c=document.getElementById("grid");
-    var ctx=c.getContext("2d");
+  function draw_grid(grid, index){
+    var c = document.getElementById("grid" + index);
+    var ctx = c.getContext("2d");
 
     // draw white blank
     ctx.fillStyle="#ffffff";
-    ctx.fillRect(0,0,150,150);
+    ctx.fillRect(0,0,grid.length*10,grid.length*10);
 
     // draw lines
     ctx.strokeStyle = "#b2b2b2";
-    for(var k=1; k<15; k++){
+    for(var k=1; k<grid.length; k++){
       ctx.moveTo(0,10*k);
-      ctx.lineTo(150,10*k);
+      ctx.lineTo(grid.length*10,10*k);
       ctx.stroke();
       ctx.moveTo(10*k,0);
-      ctx.lineTo(10*k,150);
+      ctx.lineTo(10*k,grid.length*10);
       ctx.stroke();
     }
 
     // draw cells
     ctx.fillStyle="#000000";
-    for(var i=0; i<grid.length; i++){
-      for(var j=0; j<grid[0].length; j++){
-        if(grid[i][j] == 1){
+    for(var j=0; j<grid.length; j++){
+      for(var i=0; i<grid.length; i++){
+        if(grid[j][i] == 1){
           ctx.fillRect(i*10,j*10,10,10);
         }
       }
@@ -47,12 +56,14 @@
     return a;
   }
 
-  $(document).ready(function(){
-    next_grid = <%= @grid %>;
+  $(function(){
+    next_grid = [<%= @grid1 %>, <%= @grid2 %>, <%= @grid3 %>, <%= @grid4 %>, <%= @grid5 %>];
     setInterval(function(){
-      $.post('/', {grid: next_grid}, function(data){
-        next_grid = parse_array(data);
-        draw_grid(next_grid);
+      $.each(next_grid, function(index, value) {
+        $.post('/', {grid: value}, function(data){
+          next_grid[index] = parse_array(data);
+          draw_grid(next_grid[index], index+1);
+        });
       });
     }, 1000);
   });
