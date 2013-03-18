@@ -14,5 +14,4 @@
 
 ### TODO
 
-- Add mutipul grid support
-- Can apply grid by custom
+- Can add custom grid

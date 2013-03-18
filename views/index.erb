@@ -1,13 +1,36 @@
 <style>
   .grid {
     border: 1px solid #000000;
+    margin-right: 10px;
+  }
+
+  body {
+    background-image: url("images/bg.png");
+  }
+
+  .grids {
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    margin-top: 200px;
+  }
+
+  .title {
+    font-family: sans-serif;
+    font-size: 20px;
+    color: green;
   }
 </style>
-<canvas id='grid1' class="grid" width="<%= @grid1.size*10 %>" height="<%= @grid1.size*10 %>"></canvas>
-<canvas id='grid2' class="grid" width="<%= @grid2.size*10 %>" height="<%= @grid2.size*10 %>"></canvas>
-<canvas id='grid3' class="grid" width="<%= @grid3.size*10 %>" height="<%= @grid3.size*10 %>"></canvas>
-<canvas id='grid4' class="grid" width="<%= @grid4.size*10 %>" height="<%= @grid4.size*10 %>"></canvas>
-<canvas id='grid5' class="grid" width="<%= @grid5.size*10 %>" height="<%= @grid5.size*10 %>"></canvas>
+<body>
+  <div class='grids'>
+    <div style='margin-bottom: 20px;'><span class='title'>Game of life Demo</span></div>
+    <canvas id='grid1' class="grid" width="<%= @grid1.size*10 %>" height="<%= @grid1.size*10 %>"></canvas>
+    <canvas id='grid2' class="grid" width="<%= @grid2.size*10 %>" height="<%= @grid2.size*10 %>"></canvas>
+    <canvas id='grid3' class="grid" width="<%= @grid3.size*10 %>" height="<%= @grid3.size*10 %>"></canvas>
+    <canvas id='grid4' class="grid" width="<%= @grid4.size*10 %>" height="<%= @grid4.size*10 %>"></canvas>
+    <canvas id='grid5' class="grid" width="<%= @grid5.size*10 %>" height="<%= @grid5.size*10 %>"></canvas>
+  </div>
+</body>
 
 <script src='javascript/jquery.min.js'></script>
 <script>
